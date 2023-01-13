@@ -4,7 +4,8 @@ export type TaskGroup = {
   tasks: Array<any>;
 };
 
-export type Task = {
+// NOTE: 重複を避けるためにTaskTypeとしている
+export type TaskType = {
   taskId: number;
   taskText: string;
   taskCreatedAt: string;
