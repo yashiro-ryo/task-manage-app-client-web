@@ -1,8 +1,8 @@
-import React from 'react'
+import React from "react";
 import styled from "styled-components";
 
 const StyledNavbar = styled.div`
-  background-color: "#46ccd7";
+  background-color: #3120e0;
   height: 50px;
   width: 100%;
 `;
