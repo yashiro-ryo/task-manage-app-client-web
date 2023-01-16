@@ -9,7 +9,7 @@ import { TaskGroup, TaskType } from "../types/task";
 
 const Field = styled.div`
   width: 100%;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 50px);
   background-color: #e7e7e7;
   color: #000000;
   padding: 15px;
@@ -19,14 +19,18 @@ const Field = styled.div`
   overflow-x: auto;
 `;
 
-export default function TaskField() {
+type Props = {
+  groups: Array<TaskGroup>
+}
+
+export default function TaskField(props: Props) {
   const [isCatEditorVisible, setCatEditorVisible] = useState(false);
   const [isTaskEditorVisible, setTaskEditorVisible] = useState(false);
   const [dragTarget, setDragTarget] = useState<{
     taskGroupId: number;
     taskId: number;
   }>();
-  const [taskGroup, setTaskGroup] = useState<Array<TaskGroup>>(groups);
+  const [taskGroup, setTaskGroup] = useState<Array<TaskGroup>>(props.groups);
   const onClickAddCategory = () => {
     setCatEditorVisible(true);
   };
