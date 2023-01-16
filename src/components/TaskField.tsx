@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import CardComp from "./Card";
 import CategoryAddButton from "./CategoryAddButton";
@@ -20,8 +20,8 @@ const Field = styled.div`
 `;
 
 type Props = {
-  groups: Array<TaskGroup>
-}
+  groups: Array<TaskGroup>;
+};
 
 export default function TaskField(props: Props) {
   const [isCatEditorVisible, setCatEditorVisible] = useState(false);
@@ -34,6 +34,10 @@ export default function TaskField(props: Props) {
   const onClickAddCategory = () => {
     setCatEditorVisible(true);
   };
+
+  useEffect(() => {
+    setTaskGroup(props.groups);
+  }, [props.groups]);
 
   // drag event
   const onDrag = () => {

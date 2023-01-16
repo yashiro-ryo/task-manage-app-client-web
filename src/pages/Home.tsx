@@ -1,17 +1,11 @@
 import React, { useState } from "react";
 import TaskField from "../components/TaskField";
-import { io } from "socket.io-client";
+import { TaskGroup } from "../types/task";
 
-const socket = io("http://localhost:5050");
+type Props = {
+  groups: Array<TaskGroup>;
+};
 
-export default function Home() {
-  const [groups, setGroups] = useState([])
-  socket.on("connect", () => {
-    console.log("socket connected");
-  });
-  socket.on("init-tasks", (data: any) => {
-    console.log(data);
-    setGroups(data)
-  });
-  return <TaskField groups={groups} />;
+export default function Home(props: Props) {
+  return <TaskField groups={props.groups} />;
 }
