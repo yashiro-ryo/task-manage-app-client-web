@@ -22,7 +22,7 @@ function App() {
         <Routes>
           <Route
             path="/home/:domainId/:projectId"
-            element={<Home groups={groups} />}
+            element={<Home groups={groups} socket={socket} />}
           />
         </Routes>
       </BrowserRouter>
