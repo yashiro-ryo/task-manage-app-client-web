@@ -164,6 +164,7 @@ export default function TaskField(props: Props) {
         <TaskEditor
           isVisible={isTaskEditorVisible}
           setVisible={setTaskEditorVisible}
+          socket={props.socket}
         />
       </Field>
     </>

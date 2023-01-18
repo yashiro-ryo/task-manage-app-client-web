@@ -6,10 +6,12 @@ import InputDate from "./InputDate";
 import InputForm from "./InputForm";
 import InputOptions from "./InputOptions";
 import InputTime from "./InputTime";
+import { Socket } from "socket.io-client";
 
 type Props = {
   isVisible: boolean;
   setVisible: (isVisible: boolean) => void;
+  socket: Socket;
 };
 
 const StyledModal = styled(Modal)`
@@ -164,6 +166,11 @@ export default function TaskEditor(props: Props) {
     if (isNotAbleToSubmit) {
       return;
     }
+    props.socket.emit('create-task', {
+      projectId: 1,
+      taskGroupId: 1,
+      taskText: taskName
+    })
     handleClose();
   };
 
