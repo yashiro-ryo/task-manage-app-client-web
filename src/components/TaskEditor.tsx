@@ -98,7 +98,7 @@ export default function TaskEditor(props: Props) {
       isNotAbleToSubmit = true;
     }
 
-    if (dateValidate(deadlineDate, deadlineTime)) {
+    if (useTaskEditorOption && dateValidate(deadlineDate, deadlineTime)) {
       setDeadlineValidationErrorVisible(true);
       setDeadlineValidationErrorText("過去の日時を指定することはできません。");
       isNotAbleToSubmit = true;
