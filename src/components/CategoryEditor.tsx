@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import styled from "styled-components";
 import InputForm from "./InputForm";
+import { Socket } from "socket.io-client";
 
 type Props = {
   isVisible: boolean;
   setVisible: (isVisible: boolean) => void;
+  socket: Socket;
 };
 
 const StyledModal = styled(Modal)`
@@ -33,17 +35,27 @@ export default function CategoryEditor(props: Props) {
     setCategoryName(e.target.value);
   };
 
-  const validateCategoryName = (categoryName: string) => {
+  const validateCategoryName = (categoryName: string): boolean => {
     if (categoryName.length > 50 || categoryName.length < 1) {
       setErrorMsg("カテゴリー名は1文字以上50文字以下で登録してください。");
-      return;
+      return false;
     }
+    return true;
   };
 
   const createCategory = () => {
     // validation
-    validateCategoryName(categoryName);
+    if (!validateCategoryName(categoryName)) {
+      return;
+    }
     // dbにデータを飛ばす
+    console.log("db db !");
+    props.socket.emit("create-new-task-group", {
+      // TODO: add user auth
+      projectId: 1,
+      groupName: categoryName,
+    });
+    props.setVisible(false);
   };
 
   useEffect(() => {

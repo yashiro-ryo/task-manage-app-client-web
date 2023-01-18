@@ -6,6 +6,7 @@ import CategoryEditor from "./CategoryEditor";
 import TaskEditor from "./TaskEditor";
 import { groups } from "../etc/dummyData";
 import { TaskGroup, TaskType } from "../types/task";
+import { Socket } from "socket.io-client";
 
 const Field = styled.div`
   width: 100%;
@@ -21,6 +22,7 @@ const Field = styled.div`
 
 type Props = {
   groups: Array<TaskGroup>;
+  socket: Socket;
 };
 
 export default function TaskField(props: Props) {
@@ -157,6 +159,7 @@ export default function TaskField(props: Props) {
         <CategoryEditor
           isVisible={isCatEditorVisible}
           setVisible={setCatEditorVisible}
+          socket={props.socket}
         />
         <TaskEditor
           isVisible={isTaskEditorVisible}
