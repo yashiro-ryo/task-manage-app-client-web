@@ -64,6 +64,7 @@ export default function TaskEditor(props: Props) {
     useState(false);
   const [deadlineValidationErrorText, setDeadlineValidationErrorText] =
     useState("");
+  const [useTaskEditorOption, setTaskEditorOption] = useState(false);
   const handleClose = () => {
     props.setVisible(false);
   };
@@ -170,6 +171,27 @@ export default function TaskEditor(props: Props) {
     resetErrorText();
   }, [props.isVisible]);
 
+  const option = (useOption: boolean) => {
+    return useOption ? (
+      <>
+        <OptionSpacer>オプション設定</OptionSpacer>
+        <InputOptions
+          formLabel="優先度"
+          options={options}
+          onChange={onChangeTaskPriority}
+        />
+        <InputDate onChangeDate={onChangeDate} />
+        <InputTime onChangeTime={onChangeTime} />
+        <ErrorText
+          isVisible={isDeadlineValidationErrorVisible}
+          errorText={deadlineValidationErrorText}
+        />
+      </>
+    ) : (
+      ""
+    );
+  };
+
   return (
     <StyledModal show={props.isVisible} onHide={handleClose}>
       <StyledModal.Header closeButton>
@@ -187,18 +209,7 @@ export default function TaskEditor(props: Props) {
           isVisible={isTaskValidationErrorVisible}
           errorText={taskValidationErrorText}
         />
-        <OptionSpacer>オプション設定</OptionSpacer>
-        <InputOptions
-          formLabel="優先度"
-          options={options}
-          onChange={onChangeTaskPriority}
-        />
-        <InputDate onChangeDate={onChangeDate} />
-        <InputTime onChangeTime={onChangeTime} />
-        <ErrorText
-          isVisible={isDeadlineValidationErrorVisible}
-          errorText={deadlineValidationErrorText}
-        />
+        {option(useTaskEditorOption)}
       </StyledModal.Body>
       <StyledModal.Footer>
         <Button variant="secondary" onClick={handleClose}>
