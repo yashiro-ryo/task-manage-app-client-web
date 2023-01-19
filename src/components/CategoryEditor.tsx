@@ -30,7 +30,7 @@ export default function CategoryEditor(props: Props) {
     setErrorMsg("");
   };
 
-  const onChangeCategoryName = (e: any) => {
+  const onChangeCategoryName = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.value);
     setCategoryName(e.target.value);
   };
