@@ -9,13 +9,12 @@ const socket = io("http://localhost:5050");
 
 function App() {
   const [groups, setGroups] = useState<Array<TaskGroup>>([]);
-  socket.on("connect", () => {
-    console.log("socket connected");
-  });
+
   socket.on("init-tasks", (data: Array<TaskGroup>) => {
     console.log(data);
     setGroups(data);
   });
+
   return (
     <>
       <Navbar />
