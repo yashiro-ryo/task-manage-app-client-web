@@ -70,6 +70,7 @@ export default function CardComp(props: Props) {
         isVisible={isTaskEditorVisible}
         setVisible={setTaskEditorVisible}
         socket={props.socket}
+        taskGroup={props.taskGroup}
       />
     </StyledCard>
   );

@@ -7,11 +7,13 @@ import InputForm from "./InputForm";
 import InputOptions from "./InputOptions";
 import InputTime from "./InputTime";
 import { Socket } from "socket.io-client";
+import { TaskGroup } from "../types/task";
 
 type Props = {
   isVisible: boolean;
   setVisible: (isVisible: boolean) => void;
   socket: Socket;
+  taskGroup: TaskGroup;
 };
 
 const StyledModal = styled(Modal)`
@@ -166,11 +168,13 @@ export default function TaskEditor(props: Props) {
     if (isNotAbleToSubmit) {
       return;
     }
-    props.socket.emit('create-task', {
+    props.socket.emit("create-task", {
+      // path paramから取得できるようにする
       projectId: 1,
-      taskGroupId: 1,
-      taskText: taskName
-    })
+      taskGroupId: props.taskGroup.taskGroupId,
+      taskText: taskName,
+      position: props.taskGroup.tasks.length,
+    });
     handleClose();
   };
 
