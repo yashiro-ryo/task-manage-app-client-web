@@ -2,17 +2,19 @@ import { Card } from "react-bootstrap";
 import styled from "styled-components";
 import Task from "./Task";
 import AddButton from "./AddButton";
-import React from "react";
+import React, { useState } from "react";
 import { TaskGroup, TaskType } from "../types/task";
 import DropZone from "./DropZone";
+import TaskEditor from "./TaskEditor";
+import { Socket } from "socket.io-client";
 
 type Props = {
-  setTaskEditorVisible: (isVisible: boolean) => void;
   onDrag: (e: React.MouseEvent) => void;
   onDragOver: (e: React.MouseEvent) => void;
   onDragStart: (e: React.MouseEvent) => void;
   onDrop: (e: React.MouseEvent) => void;
   taskGroup: TaskGroup;
+  socket: Socket;
 };
 
 const StyledCard = styled(Card)`
@@ -31,6 +33,7 @@ const CardTitle = styled.h5`
 `;
 
 export default function CardComp(props: Props) {
+  const [isTaskEditorVisible, setTaskEditorVisible] = useState(false);
   return (
     <StyledCard
       onDragOver={props.onDragOver}
@@ -62,7 +65,13 @@ export default function CardComp(props: Props) {
           </div>
         );
       })}
-      <AddButton setTaskEditorVisible={props.setTaskEditorVisible} />
+      <AddButton setTaskEditorVisible={setTaskEditorVisible} />
+      <TaskEditor
+        isVisible={isTaskEditorVisible}
+        setVisible={setTaskEditorVisible}
+        socket={props.socket}
+        taskGroup={props.taskGroup}
+      />
     </StyledCard>
   );
 }

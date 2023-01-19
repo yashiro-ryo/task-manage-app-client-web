@@ -6,10 +6,14 @@ import InputDate from "./InputDate";
 import InputForm from "./InputForm";
 import InputOptions from "./InputOptions";
 import InputTime from "./InputTime";
+import { Socket } from "socket.io-client";
+import { TaskGroup } from "../types/task";
 
 type Props = {
   isVisible: boolean;
   setVisible: (isVisible: boolean) => void;
+  socket: Socket;
+  taskGroup: TaskGroup;
 };
 
 const StyledModal = styled(Modal)`
@@ -64,6 +68,7 @@ export default function TaskEditor(props: Props) {
     useState(false);
   const [deadlineValidationErrorText, setDeadlineValidationErrorText] =
     useState("");
+  const [useTaskEditorOption, setTaskEditorOption] = useState(false);
   const handleClose = () => {
     props.setVisible(false);
   };
@@ -97,7 +102,7 @@ export default function TaskEditor(props: Props) {
       isNotAbleToSubmit = true;
     }
 
-    if (dateValidate(deadlineDate, deadlineTime)) {
+    if (useTaskEditorOption && dateValidate(deadlineDate, deadlineTime)) {
       setDeadlineValidationErrorVisible(true);
       setDeadlineValidationErrorText("過去の日時を指定することはできません。");
       isNotAbleToSubmit = true;
@@ -163,12 +168,40 @@ export default function TaskEditor(props: Props) {
     if (isNotAbleToSubmit) {
       return;
     }
+    props.socket.emit("create-task", {
+      // path paramから取得できるようにする
+      projectId: 1,
+      taskGroupId: props.taskGroup.taskGroupId,
+      taskText: taskName,
+      position: props.taskGroup.tasks.length,
+    });
     handleClose();
   };
 
   useEffect(() => {
     resetErrorText();
   }, [props.isVisible]);
+
+  const option = (useOption: boolean) => {
+    return useOption ? (
+      <>
+        <OptionSpacer>オプション設定</OptionSpacer>
+        <InputOptions
+          formLabel="優先度"
+          options={options}
+          onChange={onChangeTaskPriority}
+        />
+        <InputDate onChangeDate={onChangeDate} />
+        <InputTime onChangeTime={onChangeTime} />
+        <ErrorText
+          isVisible={isDeadlineValidationErrorVisible}
+          errorText={deadlineValidationErrorText}
+        />
+      </>
+    ) : (
+      ""
+    );
+  };
 
   return (
     <StyledModal show={props.isVisible} onHide={handleClose}>
@@ -187,18 +220,7 @@ export default function TaskEditor(props: Props) {
           isVisible={isTaskValidationErrorVisible}
           errorText={taskValidationErrorText}
         />
-        <OptionSpacer>オプション設定</OptionSpacer>
-        <InputOptions
-          formLabel="優先度"
-          options={options}
-          onChange={onChangeTaskPriority}
-        />
-        <InputDate onChangeDate={onChangeDate} />
-        <InputTime onChangeTime={onChangeTime} />
-        <ErrorText
-          isVisible={isDeadlineValidationErrorVisible}
-          errorText={deadlineValidationErrorText}
-        />
+        {option(useTaskEditorOption)}
       </StyledModal.Body>
       <StyledModal.Footer>
         <Button variant="secondary" onClick={handleClose}>

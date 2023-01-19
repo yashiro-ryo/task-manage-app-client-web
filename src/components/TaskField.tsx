@@ -3,8 +3,6 @@ import styled from "styled-components";
 import CardComp from "./Card";
 import CategoryAddButton from "./CategoryAddButton";
 import CategoryEditor from "./CategoryEditor";
-import TaskEditor from "./TaskEditor";
-import { groups } from "../etc/dummyData";
 import { TaskGroup, TaskType } from "../types/task";
 import { Socket } from "socket.io-client";
 
@@ -27,7 +25,6 @@ type Props = {
 
 export default function TaskField(props: Props) {
   const [isCatEditorVisible, setCatEditorVisible] = useState(false);
-  const [isTaskEditorVisible, setTaskEditorVisible] = useState(false);
   const [dragTarget, setDragTarget] = useState<{
     taskGroupId: number;
     taskId: number;
@@ -145,13 +142,13 @@ export default function TaskField(props: Props) {
         {taskGroup.map((value: TaskGroup) => {
           return (
             <CardComp
-              setTaskEditorVisible={setTaskEditorVisible}
               onDrag={onDrag}
               onDragStart={onDragStart}
               onDragOver={onDragOver}
               onDrop={onDrop}
               key={value.taskGroupId}
               taskGroup={value}
+              socket={props.socket}
             />
           );
         })}
@@ -160,10 +157,6 @@ export default function TaskField(props: Props) {
           isVisible={isCatEditorVisible}
           setVisible={setCatEditorVisible}
           socket={props.socket}
-        />
-        <TaskEditor
-          isVisible={isTaskEditorVisible}
-          setVisible={setTaskEditorVisible}
         />
       </Field>
     </>
