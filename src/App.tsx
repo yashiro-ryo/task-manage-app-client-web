@@ -21,7 +21,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route
-            path="/home/:domainId/:projectId"
+            path="/home/:projectId"
             element={<Home groups={groups} socket={socket} />}
           />
         </Routes>
