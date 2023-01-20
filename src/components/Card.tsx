@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { TaskGroup, TaskType } from "../types/task";
 import DropZone from "./DropZone";
 import TaskEditor from "./TaskEditor";
+import TaskDeleteModal from "./TaskDeleteModal";
 import { Socket } from "socket.io-client";
 
 type Props = {
@@ -34,6 +35,11 @@ const CardTitle = styled.h5`
 
 export default function CardComp(props: Props) {
   const [isTaskEditorVisible, setTaskEditorVisible] = useState(false);
+  const [isTaskDeleteModalVisible, setTaskDeleteModalVisible] = useState(false);
+  const showTaskDeleteModal = (isVisible: boolean, taskId: number) => {
+    setTaskDeleteModalVisible(isVisible);
+    console.log(taskId);
+  };
   return (
     <StyledCard
       onDragOver={props.onDragOver}
@@ -56,6 +62,7 @@ export default function CardComp(props: Props) {
               key={value.taskId}
               taskGroupId={props.taskGroup.taskGroupId}
               task={value}
+              showTaskDeleteModal={showTaskDeleteModal}
             />
             <DropZone
               taskGroupId={props.taskGroup.taskGroupId}
@@ -71,6 +78,16 @@ export default function CardComp(props: Props) {
         setVisible={setTaskEditorVisible}
         socket={props.socket}
         taskGroup={props.taskGroup}
+      />
+      <TaskDeleteModal
+        isVisible={isTaskDeleteModalVisible}
+        setVisible={setTaskDeleteModalVisible}
+        deleteCb={() => {
+          console.log("aiueo");
+        }}
+        cancelCb={() => {
+          console.log("aiueo");
+        }}
       />
     </StyledCard>
   );

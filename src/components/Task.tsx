@@ -9,6 +9,7 @@ type Props = {
   onDragStart: (e: React.MouseEvent) => void;
   taskGroupId: number;
   task: TaskType;
+  showTaskDeleteModal: (isVisible: boolean, taskId: number) => void;
 };
 
 const StyledCard = styled(Card)`
@@ -28,6 +29,10 @@ const ButtonGroup = styled.div`
 `;
 
 export default function Task(props: Props) {
+  const onClickDeleteTask = (e: React.MouseEvent) => {
+    props.showTaskDeleteModal(true, props.task.taskId);
+  };
+
   return (
     <StyledCard
       draggable={true}
@@ -38,7 +43,7 @@ export default function Task(props: Props) {
     >
       <TaskText>{props.task.taskText}</TaskText>
       <ButtonGroup>
-        <DeleteButton />
+        <DeleteButton onClick={onClickDeleteTask} />
       </ButtonGroup>
     </StyledCard>
   );

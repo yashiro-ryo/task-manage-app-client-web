@@ -9,14 +9,18 @@ const StyledButton = styled(Button)`
   width: 45px;
 `;
 
-export default function DeleteButton() {
+type Props = {
+  onClick: (e: React.MouseEvent) => void;
+};
+
+export default function DeleteButton(props: Props) {
   return (
     <>
       <OverlayTrigger
         placement={"bottom"}
         overlay={<Tooltip id={`tooltip-bottom`}>タスク削除</Tooltip>}
       >
-        <StyledButton variant="light">
+        <StyledButton variant="light" onClick={props.onClick}>
           <AiOutlineDelete />
         </StyledButton>
       </OverlayTrigger>
