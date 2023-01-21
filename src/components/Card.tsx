@@ -7,6 +7,7 @@ import { TaskGroup, TaskType } from "../types/task";
 import DropZone from "./DropZone";
 import TaskEditor from "./TaskEditor";
 import TaskDeleteModal from "./TaskDeleteModal";
+import CardOption from "./CardOption";
 import { Socket } from "socket.io-client";
 
 type Props = {
@@ -27,6 +28,7 @@ const StyledCard = styled(Card)`
 
 const StyledCardHeader = styled.div`
   display: flex;
+  justify-content: space-between;
 `;
 
 const CardTitle = styled.h5`
@@ -57,6 +59,7 @@ export default function CardComp(props: Props) {
     >
       <StyledCardHeader>
         <CardTitle>{props.taskGroup.taskGroupText}</CardTitle>
+        <CardOption />
       </StyledCardHeader>
       <DropZone
         taskGroupId={props.taskGroup.taskGroupId}
