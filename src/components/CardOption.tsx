@@ -17,9 +17,7 @@ export default function CardOption() {
 
       <Dropdown.Menu>
         {/* TODO リンクをnext linkに修正する */}
-        <Dropdown.Item href="#">Action</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+        <Dropdown.Item href="#">タスクグループ削除</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   );
