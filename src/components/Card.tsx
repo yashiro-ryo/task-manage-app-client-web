@@ -65,6 +65,10 @@ export default function CardComp(props: Props) {
 
   const deleteTaskGroup = () => {
     console.log("タスクグループ削除", props.taskGroup.taskGroupId);
+    props.socket.emit("delete-taskgroup", {
+      projectId: 1,
+      taskGroupId: props.taskGroup.taskGroupId,
+    });
   };
 
   return (
