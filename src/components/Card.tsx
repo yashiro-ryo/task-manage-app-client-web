@@ -41,6 +41,7 @@ export default function CardComp(props: Props) {
   const [deleteTaskId, setDeleteTaskId] = useState(0);
   const [isTaskGroupDeleteModalVisible, setTaskGroupDeleteModalVisible] =
     useState(false);
+  const [taskGroupDeleteText, setTaskGroupDeleteText] = useState("");
   const showTaskDeleteModal = (isVisible: boolean, taskId: number) => {
     setTaskDeleteModalVisible(isVisible);
     console.log(taskId);
@@ -48,6 +49,9 @@ export default function CardComp(props: Props) {
   };
 
   const showTaskGroupDeleteModal = (isVisible: boolean) => {
+    setTaskGroupDeleteText(
+      `タスクグループを削除しても良いですか?\n${props.taskGroup.tasks.length}件のタスクも削除されます。`
+    );
     setTaskGroupDeleteModalVisible(isVisible);
     console.log(props.taskGroup.taskGroupId);
   };
@@ -108,7 +112,7 @@ export default function CardComp(props: Props) {
         setVisible={setTaskGroupDeleteModalVisible}
         deleteCb={deleteTaskGroup}
         cancelCb={() => console.log("aiueo")}
-        modalBodyText={"タスクグループを削除しても良いですか?"}
+        modalBodyText={taskGroupDeleteText}
       />
       <TaskDeleteModal
         isVisible={isTaskDeleteModalVisible}
