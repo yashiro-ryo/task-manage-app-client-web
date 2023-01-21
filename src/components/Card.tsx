@@ -39,10 +39,17 @@ export default function CardComp(props: Props) {
   const [isTaskEditorVisible, setTaskEditorVisible] = useState(false);
   const [isTaskDeleteModalVisible, setTaskDeleteModalVisible] = useState(false);
   const [deleteTaskId, setDeleteTaskId] = useState(0);
+  const [isTaskGroupDeleteModalVisible, setTaskGroupDeleteModalVisible] =
+    useState(false);
   const showTaskDeleteModal = (isVisible: boolean, taskId: number) => {
     setTaskDeleteModalVisible(isVisible);
     console.log(taskId);
     setDeleteTaskId(taskId);
+  };
+
+  const showTaskGroupDeleteModal = (isVisible: boolean) => {
+    setTaskGroupDeleteModalVisible(isVisible);
+    console.log(props.taskGroup.taskGroupId);
   };
 
   const deleteTask = () => {
@@ -52,6 +59,10 @@ export default function CardComp(props: Props) {
     });
   };
 
+  const deleteTaskGroup = () => {
+    console.log("タスクグループ削除", props.taskGroup.taskGroupId);
+  };
+
   return (
     <StyledCard
       onDragOver={props.onDragOver}
@@ -59,7 +70,7 @@ export default function CardComp(props: Props) {
     >
       <StyledCardHeader>
         <CardTitle>{props.taskGroup.taskGroupText}</CardTitle>
-        <CardOption />
+        <CardOption showModal={showTaskGroupDeleteModal} />
       </StyledCardHeader>
       <DropZone
         taskGroupId={props.taskGroup.taskGroupId}
@@ -93,6 +104,13 @@ export default function CardComp(props: Props) {
         taskGroup={props.taskGroup}
       />
       <TaskDeleteModal
+        isVisible={isTaskGroupDeleteModalVisible}
+        setVisible={setTaskGroupDeleteModalVisible}
+        deleteCb={deleteTaskGroup}
+        cancelCb={() => console.log("aiueo")}
+        modalBodyText={"タスクグループを削除しても良いですか?"}
+      />
+      <TaskDeleteModal
         isVisible={isTaskDeleteModalVisible}
         setVisible={setTaskDeleteModalVisible}
         deleteCb={() => {
@@ -102,6 +120,7 @@ export default function CardComp(props: Props) {
         cancelCb={() => {
           console.log("cancelDeleteTask");
         }}
+        modalBodyText={"タスクを削除しても良いですか?"}
       />
     </StyledCard>
   );
