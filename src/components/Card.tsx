@@ -7,6 +7,7 @@ import { TaskGroup, TaskType } from "../types/task";
 import DropZone from "./DropZone";
 import TaskEditor from "./TaskEditor";
 import TaskDeleteModal from "./TaskDeleteModal";
+import CardOption from "./CardOption";
 import { Socket } from "socket.io-client";
 
 type Props = {
@@ -27,6 +28,7 @@ const StyledCard = styled(Card)`
 
 const StyledCardHeader = styled.div`
   display: flex;
+  justify-content: space-between;
 `;
 
 const CardTitle = styled.h5`
@@ -36,10 +38,20 @@ const CardTitle = styled.h5`
 export default function CardComp(props: Props) {
   const [isTaskEditorVisible, setTaskEditorVisible] = useState(false);
   const [isTaskDeleteModalVisible, setTaskDeleteModalVisible] = useState(false);
+  const [deleteTaskId, setDeleteTaskId] = useState(0);
   const showTaskDeleteModal = (isVisible: boolean, taskId: number) => {
     setTaskDeleteModalVisible(isVisible);
     console.log(taskId);
+    setDeleteTaskId(taskId);
   };
+
+  const deleteTask = () => {
+    props.socket.emit("delete-task", {
+      taskId: deleteTaskId,
+      projectId: 1,
+    });
+  };
+
   return (
     <StyledCard
       onDragOver={props.onDragOver}
@@ -47,6 +59,7 @@ export default function CardComp(props: Props) {
     >
       <StyledCardHeader>
         <CardTitle>{props.taskGroup.taskGroupText}</CardTitle>
+        <CardOption />
       </StyledCardHeader>
       <DropZone
         taskGroupId={props.taskGroup.taskGroupId}
@@ -83,10 +96,11 @@ export default function CardComp(props: Props) {
         isVisible={isTaskDeleteModalVisible}
         setVisible={setTaskDeleteModalVisible}
         deleteCb={() => {
-          console.log("aiueo");
+          console.log("deleteTask");
+          deleteTask();
         }}
         cancelCb={() => {
-          console.log("aiueo");
+          console.log("cancelDeleteTask");
         }}
       />
     </StyledCard>
