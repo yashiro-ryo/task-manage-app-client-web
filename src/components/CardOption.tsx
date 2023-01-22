@@ -8,7 +8,11 @@ const StyledDropdownToggle = styled(Dropdown.Toggle)`
   border: none;
 `;
 
-export default function CardOption() {
+type Props = {
+  showModal: (isVisible: boolean) => void;
+};
+
+export default function CardOption(props: Props) {
   return (
     <Dropdown>
       <StyledDropdownToggle variant="light" id="dropdown-basic">
@@ -17,9 +21,9 @@ export default function CardOption() {
 
       <Dropdown.Menu>
         {/* TODO リンクをnext linkに修正する */}
-        <Dropdown.Item href="#">Action</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+        <Dropdown.Item href="#" onClick={() => props.showModal(true)}>
+          タスクグループ削除
+        </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   );

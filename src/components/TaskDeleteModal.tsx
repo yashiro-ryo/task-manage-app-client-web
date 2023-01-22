@@ -5,7 +5,8 @@ type Props = {
   isVisible: boolean;
   setVisible: (isVisible: boolean) => void;
   deleteCb: () => void;
-  cancelCb: () => void;
+  cancelCb?: () => void;
+  modalBodyText: string;
 };
 
 export default function TaskDeleteModal(props: Props) {
@@ -19,6 +20,9 @@ export default function TaskDeleteModal(props: Props) {
   };
 
   const onClickCancel = (e: React.MouseEvent) => {
+    if (props.cancelCb === undefined) {
+      return;
+    }
     props.cancelCb();
     props.setVisible(false);
   };
@@ -26,7 +30,7 @@ export default function TaskDeleteModal(props: Props) {
   return (
     <Modal show={props.isVisible} onHide={handleClose}>
       <Modal.Body>
-        <p>タスクを削除しても良いですか?</p>
+        <p>{props.modalBodyText}</p>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="light" onClick={onClickDelete}>

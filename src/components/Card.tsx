@@ -39,16 +39,35 @@ export default function CardComp(props: Props) {
   const [isTaskEditorVisible, setTaskEditorVisible] = useState(false);
   const [isTaskDeleteModalVisible, setTaskDeleteModalVisible] = useState(false);
   const [deleteTaskId, setDeleteTaskId] = useState(0);
+  const [isTaskGroupDeleteModalVisible, setTaskGroupDeleteModalVisible] =
+    useState(false);
+  const [taskGroupDeleteText, setTaskGroupDeleteText] = useState("");
   const showTaskDeleteModal = (isVisible: boolean, taskId: number) => {
     setTaskDeleteModalVisible(isVisible);
     console.log(taskId);
     setDeleteTaskId(taskId);
   };
 
+  const showTaskGroupDeleteModal = (isVisible: boolean) => {
+    setTaskGroupDeleteText(
+      `タスクグループを削除しても良いですか?\n${props.taskGroup.tasks.length}件のタスクも削除されます。`
+    );
+    setTaskGroupDeleteModalVisible(isVisible);
+    console.log(props.taskGroup.taskGroupId);
+  };
+
   const deleteTask = () => {
     props.socket.emit("delete-task", {
       taskId: deleteTaskId,
       projectId: 1,
+    });
+  };
+
+  const deleteTaskGroup = () => {
+    console.log("タスクグループ削除", props.taskGroup.taskGroupId);
+    props.socket.emit("delete-taskgroup", {
+      projectId: 1,
+      taskGroupId: props.taskGroup.taskGroupId,
     });
   };
 
@@ -59,7 +78,7 @@ export default function CardComp(props: Props) {
     >
       <StyledCardHeader>
         <CardTitle>{props.taskGroup.taskGroupText}</CardTitle>
-        <CardOption />
+        <CardOption showModal={showTaskGroupDeleteModal} />
       </StyledCardHeader>
       <DropZone
         taskGroupId={props.taskGroup.taskGroupId}
@@ -93,6 +112,13 @@ export default function CardComp(props: Props) {
         taskGroup={props.taskGroup}
       />
       <TaskDeleteModal
+        isVisible={isTaskGroupDeleteModalVisible}
+        setVisible={setTaskGroupDeleteModalVisible}
+        deleteCb={deleteTaskGroup}
+        cancelCb={() => console.log("aiueo")}
+        modalBodyText={taskGroupDeleteText}
+      />
+      <TaskDeleteModal
         isVisible={isTaskDeleteModalVisible}
         setVisible={setTaskDeleteModalVisible}
         deleteCb={() => {
@@ -102,6 +128,7 @@ export default function CardComp(props: Props) {
         cancelCb={() => {
           console.log("cancelDeleteTask");
         }}
+        modalBodyText={"タスクを削除しても良いですか?"}
       />
     </StyledCard>
   );
