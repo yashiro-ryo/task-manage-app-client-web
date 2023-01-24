@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import { io } from "socket.io-client";
 import { TaskGroup } from "./types/task";
 
+// 接続先
 const socket = io("http://localhost:5050");
 
 function App() {
