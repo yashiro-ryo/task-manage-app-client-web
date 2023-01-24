@@ -180,6 +180,9 @@ export default function TaskEditor(props: Props) {
 
   useEffect(() => {
     resetErrorText();
+    if (props.isVisible === true) {
+      setTaskName("");
+    }
   }, [props.isVisible]);
 
   const option = (useOption: boolean) => {
