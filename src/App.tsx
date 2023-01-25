@@ -4,9 +4,12 @@ import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import { io } from "socket.io-client";
 import { TaskGroup } from "./types/task";
+import url from "./etc/url";
 
 // 接続先
-const socket = io("http://localhost:5050");
+const serverUrl = url.getServerApi(process.env.NODE_ENV);
+console.log(serverUrl);
+const socket = io(serverUrl);
 
 function App() {
   const [groups, setGroups] = useState<Array<TaskGroup>>([]);
