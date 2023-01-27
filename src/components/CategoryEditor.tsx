@@ -3,6 +3,7 @@ import { Modal, Button } from "react-bootstrap";
 import styled from "styled-components";
 import InputForm from "./InputForm";
 import { Socket } from "socket.io-client";
+import Log from "../etc/log";
 
 type Props = {
   isVisible: boolean;
@@ -31,7 +32,7 @@ export default function CategoryEditor(props: Props) {
   };
 
   const onChangeCategoryName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
+    Log.v(e.target.value);
     setCategoryName(e.target.value);
   };
 
@@ -49,7 +50,6 @@ export default function CategoryEditor(props: Props) {
       return;
     }
     // dbにデータを飛ばす
-    console.log("db db !");
     props.socket.emit("create-new-task-group", {
       // TODO: add user auth
       projectId: 1,

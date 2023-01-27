@@ -9,6 +9,7 @@ import TaskEditor from "./TaskEditor";
 import TaskDeleteModal from "./TaskDeleteModal";
 import CardOption from "./CardOption";
 import { Socket } from "socket.io-client";
+import Log from "../etc/log";
 
 type Props = {
   onDrag: (e: React.MouseEvent) => void;
@@ -44,7 +45,7 @@ export default function CardComp(props: Props) {
   const [taskGroupDeleteText, setTaskGroupDeleteText] = useState("");
   const showTaskDeleteModal = (isVisible: boolean, taskId: number) => {
     setTaskDeleteModalVisible(isVisible);
-    console.log(taskId);
+    Log.v(taskId);
     setDeleteTaskId(taskId);
   };
 
@@ -53,7 +54,7 @@ export default function CardComp(props: Props) {
       `タスクグループを削除しても良いですか?\n${props.taskGroup.tasks.length}件のタスクも削除されます。`
     );
     setTaskGroupDeleteModalVisible(isVisible);
-    console.log(props.taskGroup.taskGroupId);
+    Log.v(props.taskGroup.taskGroupId);
   };
 
   const deleteTask = () => {
@@ -64,7 +65,7 @@ export default function CardComp(props: Props) {
   };
 
   const deleteTaskGroup = () => {
-    console.log("タスクグループ削除", props.taskGroup.taskGroupId);
+    Log.v("タスクグループ削除" + props.taskGroup.taskGroupId);
     props.socket.emit("delete-taskgroup", {
       projectId: 1,
       taskGroupId: props.taskGroup.taskGroupId,
@@ -115,18 +116,18 @@ export default function CardComp(props: Props) {
         isVisible={isTaskGroupDeleteModalVisible}
         setVisible={setTaskGroupDeleteModalVisible}
         deleteCb={deleteTaskGroup}
-        cancelCb={() => console.log("aiueo")}
+        cancelCb={() => Log.v("aiueo")}
         modalBodyText={taskGroupDeleteText}
       />
       <TaskDeleteModal
         isVisible={isTaskDeleteModalVisible}
         setVisible={setTaskDeleteModalVisible}
         deleteCb={() => {
-          console.log("deleteTask");
+          Log.v("deleteTask");
           deleteTask();
         }}
         cancelCb={() => {
-          console.log("cancelDeleteTask");
+          Log.v("cancelDeleteTask");
         }}
         modalBodyText={"タスクを削除しても良いですか?"}
       />

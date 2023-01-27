@@ -3,6 +3,7 @@ import TaskField from "../components/TaskField";
 import { TaskGroup } from "../types/task";
 import { Socket } from "socket.io-client";
 import ConnectionStatusToast from "../components/ConnectionStatusToast";
+import Log from "../etc/log";
 
 type Props = {
   groups: Array<TaskGroup>;
@@ -17,13 +18,13 @@ export default function Home(props: Props) {
 
   props.socket
     .on("connect", () => {
-      console.log("socket connected");
+      Log.v("socket connected");
       setToastVisible(true);
       setToastText("接続されました");
       setToastType("light");
     })
     .on("disconnect", () => {
-      console.log("socket disconnected");
+      Log.v("socket disconnected");
       setToastVisible(true);
       setToastText("オフライン");
       setToastType("danger");

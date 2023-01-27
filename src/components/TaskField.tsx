@@ -5,6 +5,7 @@ import CategoryAddButton from "./CategoryAddButton";
 import CategoryEditor from "./CategoryEditor";
 import { TaskGroup, TaskType } from "../types/task";
 import { Socket } from "socket.io-client";
+import Log from "../etc/log";
 
 const Field = styled.div`
   width: 100%;
@@ -54,8 +55,8 @@ export default function TaskField(props: Props) {
     if (taskGroupId === null) {
       return;
     }
-    console.log("dragged task group id = ", taskGroupId);
-    console.log("dragged task id = ", dragTaskId);
+    Log.v("dragged task group id = " + taskGroupId);
+    Log.v("dragged task id = " + dragTaskId);
     setDragTarget({
       taskGroupId: Number(taskGroupId),
       taskId: Number(dragTaskId),
@@ -66,7 +67,7 @@ export default function TaskField(props: Props) {
     e.preventDefault();
     const taskId = e.currentTarget.getAttribute("data-task-id");
     if (taskId !== null) {
-      console.log(taskId);
+      Log.v(taskId);
     }
   };
 
@@ -80,8 +81,8 @@ export default function TaskField(props: Props) {
     if (taskGroupId === null) {
       return;
     }
-    console.log("dropped at task group id = ", taskGroupId);
-    console.log("dropされました drop group id = ", dropZoneId);
+    Log.v("dropped at task group id = " + taskGroupId);
+    Log.v("dropされました drop group id = " + dropZoneId);
     moveTask(Number(taskGroupId), Number(dropZoneId));
   };
 
@@ -120,9 +121,9 @@ export default function TaskField(props: Props) {
           copiedTasks = copiedTasks.concat([moveTargetTask]);
         } else {
           let start = copiedTasks.slice(0, dropZoneId);
-          console.log("start", start);
+          Log.v("start" + start);
           const end = copiedTasks.slice(dropZoneId);
-          console.log("end", end);
+          Log.v("end" + end);
           start = start.concat([moveTargetTask]);
           copiedTasks = start.concat(end);
         }
