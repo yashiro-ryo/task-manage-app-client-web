@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import Log from "../../etc/log";
 
 const weeks = ["日", "月", "火", "水", "木", "金", "土"];
 
@@ -56,7 +57,7 @@ export default function CalenderTable(props: Props) {
     if (day === null) {
       return;
     }
-    console.log(props.yaer, "年", props.month, "月", day, "日");
+    Log.v(props.yaer + "年" + props.month + "月" + day + "日");
     props.onChangeDate(props.yaer, props.month, Number(day));
     props.onClickClose();
   };
