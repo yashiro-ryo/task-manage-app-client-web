@@ -11,22 +11,22 @@
 
 ## インストール方法
 
-リポジトリのクローン
+### リポジトリのクローン
 
 ```git clone https://github.com/yashiro-ryo/task-manage-app-client-web```
 
-必要なライブラリのインストール
+### 必要なライブラリのインストール
 
 ```yarn```
 
-開発モードでの起動
+### 開発モードでの起動
 
 ```yarn start```
 
-Build
+### Build
 
 ```yarn build```
 
-Lint
+### Lint
 
 ```yarn lint-fix```
