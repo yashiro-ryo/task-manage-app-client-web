@@ -13,20 +13,41 @@
 
 ### リポジトリのクローン
 
-```git clone https://github.com/yashiro-ryo/task-manage-app-client-web```
+```
+git clone https://github.com/yashiro-ryo/task-manage-app-client-web
+```
 
 ### 必要なライブラリのインストール
 
-```yarn```
+```
+yarn
+```
 
 ### 開発モードでの起動
+※[サーバー](https://github.com/yashiro-ryo/task-manage-app-server)が必要です
 
-```yarn start```
+```
+yarn start
+```
 
 ### Build
 
-```yarn build```
+```
+yarn build
+```
 
-### Lint
+### Lintの適応、自動修正
 
-```yarn lint-fix```
+```
+yarn lint-fix
+```
+
+## 使用した技術などなど
+
+```
+TypeScript, React, Styled-Components, Jest, React-Bootstrap, Socket.io
+```
+
+## デプロイ先
+
+準備中
