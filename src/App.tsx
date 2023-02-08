@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
+import Projects from './pages/Projects'
 import Navbar from "./components/Navbar";
 import { io } from "socket.io-client";
 import { TaskGroup } from "./types/task";
@@ -29,6 +30,7 @@ function App() {
             path="/home/:projectId"
             element={<Home groups={groups} socket={socket} />}
           />
+          <Route path="/home" element={<Projects />} />
         </Routes>
       </BrowserRouter>
     </>
