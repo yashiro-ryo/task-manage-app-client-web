@@ -27,6 +27,7 @@ const ProjectList = styled.div`
 const PageHeader = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-bottom: 15px;
 `;
 
 export default function Project() {
