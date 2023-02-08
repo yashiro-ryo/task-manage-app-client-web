@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import Projects from './pages/Projects'
+import Projects from "./pages/Projects";
 import Navbar from "./components/Navbar";
+import Root from "./pages/Root";
 import { io } from "socket.io-client";
 import { TaskGroup } from "./types/task";
 import url from "./etc/url";
@@ -31,6 +32,8 @@ function App() {
             element={<Home groups={groups} socket={socket} />}
           />
           <Route path="/home" element={<Projects />} />
+          {/* 上記以外は/homeにリダイレクトするようにする */}
+          <Route path="*" element={<Root />} />
         </Routes>
       </BrowserRouter>
     </>
