@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import ProjectCard from "../components/ProjectCard";
 import styled from "styled-components";
 import { Button } from "react-bootstrap";
+import CreateProjectModal from "../components/CreateProjectModal";
 
 const StyledPage = styled.div`
   width: 100%;
@@ -32,6 +33,8 @@ const PageHeader = styled.div`
 `;
 
 export default function Project() {
+  const [isCreateProjectModalVisible, setCreateProjectModalVisible] =
+    useState(false);
   const projects = [
     {
       id: 1,
@@ -51,18 +54,28 @@ export default function Project() {
     },
   ];
 
+  const showCreateProjectModal = () => {
+    setCreateProjectModalVisible(true);
+  };
+
   return (
     <>
       <StyledPage>
         <PageHeader>
           <PageTitle>プロジェクト一覧</PageTitle>
-          <Button variant="primary">プロジェクト作成</Button>
+          <Button variant="primary" onClick={() => showCreateProjectModal()}>
+            プロジェクト作成
+          </Button>
         </PageHeader>
         <ProjectList>
           {projects.map((project, index) => {
             return <ProjectCard project={project} key={`project-${index}`} />;
           })}
         </ProjectList>
+        <CreateProjectModal
+          isVisible={isCreateProjectModalVisible}
+          setVisible={setCreateProjectModalVisible}
+        />
       </StyledPage>
     </>
   );
