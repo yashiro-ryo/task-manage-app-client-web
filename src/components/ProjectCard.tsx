@@ -14,8 +14,10 @@ type Project = {
 export default function ProjectCard(props: Props) {
   return (
     <Card>
-      <ProjectOption />
-      <p>{props.project.name}</p>
+      <Card.Body>
+        <ProjectOption />
+        <p>{props.project.name}</p>
+      </Card.Body>
     </Card>
   );
 }
