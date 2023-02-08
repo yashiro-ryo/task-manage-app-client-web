@@ -20,6 +20,8 @@ const PageTitle = styled.p`
 const ProjectList = styled.div`
   display: flex;
   align-items: flex-start;
+  flex-wrap: wrap;
+  overflow-x: auto;
 `;
 
 const PageHeader = styled.div`
@@ -36,6 +38,14 @@ export default function Project() {
     {
       id: 2,
       name: "fugafuga",
+    },
+    {
+      id: 3,
+      name: "banana",
+    },
+    {
+      id: 4,
+      name: "example",
     },
   ];
 
