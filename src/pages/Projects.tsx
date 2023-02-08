@@ -1,5 +1,10 @@
 import React from "react";
 import ProjectCard from "../components/ProjectCard";
+import styled from "styled-components";
+
+const StyledPage = styled.div`
+  padding: 10px;
+`;
 
 export default function Project() {
   const projects = [
@@ -15,9 +20,12 @@ export default function Project() {
 
   return (
     <>
-      {projects.map((project, index) => {
-        return <ProjectCard project={project} key={`project-${index}`} />;
-      })}
+      <StyledPage>
+        <p>プロジェクト一覧</p>
+        {projects.map((project, index) => {
+          return <ProjectCard project={project} key={`project-${index}`} />;
+        })}
+      </StyledPage>
     </>
   );
 }
