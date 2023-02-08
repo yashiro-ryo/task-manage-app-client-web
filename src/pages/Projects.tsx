@@ -1,6 +1,7 @@
 import React from "react";
 import ProjectCard from "../components/ProjectCard";
 import styled from "styled-components";
+import { Button } from "react-bootstrap";
 
 const StyledPage = styled.div`
   width: 100%;
@@ -21,6 +22,11 @@ const ProjectList = styled.div`
   align-items: flex-start;
 `;
 
+const PageHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 export default function Project() {
   const projects = [
     {
@@ -36,7 +42,10 @@ export default function Project() {
   return (
     <>
       <StyledPage>
-        <PageTitle>プロジェクト一覧</PageTitle>
+        <PageHeader>
+          <PageTitle>プロジェクト一覧</PageTitle>
+          <Button variant="primary">プロジェクト作成</Button>
+        </PageHeader>
         <ProjectList>
           {projects.map((project, index) => {
             return <ProjectCard project={project} key={`project-${index}`} />;
