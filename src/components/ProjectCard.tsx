@@ -2,6 +2,7 @@ import React from "react";
 import { Card } from "react-bootstrap";
 import styled from "styled-components";
 import ProjectOption from "./ProjectOption";
+import { Link } from "react-router-dom";
 
 type Props = {
   project: Project;
@@ -17,13 +18,28 @@ const StyledCard = styled(Card)`
   width: 250px;
 `;
 
+const StyledCardBody = styled(Card.Body)`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: #000000;
+  :hover {
+    color: #636363;
+  }
+`;
+
 export default function ProjectCard(props: Props) {
   return (
     <StyledCard>
-      <Card.Body>
+      <StyledCardBody>
+        <StyledLink to={`/home/${props.project.id}`}>
+          {props.project.name}
+        </StyledLink>
         <ProjectOption />
-        <p>{props.project.name}</p>
-      </Card.Body>
+      </StyledCardBody>
     </StyledCard>
   );
 }

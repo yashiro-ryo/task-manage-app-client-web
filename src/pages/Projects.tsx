@@ -22,6 +22,7 @@ const ProjectList = styled.div`
   align-items: flex-start;
   flex-wrap: wrap;
   overflow-x: auto;
+  height: calc(100% - 61px);
 `;
 
 const PageHeader = styled.div`
