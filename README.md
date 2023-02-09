@@ -1,46 +1,53 @@
-# Getting Started with Create React App
+# Task管理アプリ
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+カンバン方式でタスクを管理できるwebアプリケーションです。
 
-## Available Scripts
+現時点では以下の機能を実装しています。
 
-In the project directory, you can run:
+- タスクグループ作成
+- タスクグループ削除
+- タスク作成
+- タスク削除
 
-### `npm start`
+## インストール方法
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### リポジトリのクローン
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```
+git clone https://github.com/yashiro-ryo/task-manage-app-client-web
+```
 
-### `npm test`
+### 必要なライブラリのインストール
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+yarn
+```
 
-### `npm run build`
+### 開発モードでの起動
+※[サーバー](https://github.com/yashiro-ryo/task-manage-app-server)が必要です
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+yarn start
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Build
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+yarn build
+```
 
-### `npm run eject`
+### Lintの適応、自動修正
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```
+yarn lint-fix
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 使用した技術などなど
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```
+TypeScript, React, Styled-Components, Jest, React-Bootstrap, Socket.io
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## デプロイ先
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+準備中
