@@ -2,10 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import styled from "styled-components";
 import ErrorText from "./ErrorText";
-import InputDate from "./InputDate";
 import InputForm from "./InputForm";
-import InputOptions from "./InputOptions";
-import InputTime from "./InputTime";
 import { Socket } from "socket.io-client";
 import { TaskGroup } from "../types/task";
 
@@ -185,27 +182,6 @@ export default function TaskEditor(props: Props) {
     }
   }, [props.isVisible]);
 
-  const option = (useOption: boolean) => {
-    return useOption ? (
-      <>
-        <OptionSpacer>オプション設定</OptionSpacer>
-        <InputOptions
-          formLabel="優先度"
-          options={options}
-          onChange={onChangeTaskPriority}
-        />
-        <InputDate onChangeDate={onChangeDate} />
-        <InputTime onChangeTime={onChangeTime} />
-        <ErrorText
-          isVisible={isDeadlineValidationErrorVisible}
-          errorText={deadlineValidationErrorText}
-        />
-      </>
-    ) : (
-      ""
-    );
-  };
-
   return (
     <StyledModal show={props.isVisible} onHide={handleClose}>
       <StyledModal.Header closeButton>
@@ -223,7 +199,6 @@ export default function TaskEditor(props: Props) {
           isVisible={isTaskValidationErrorVisible}
           errorText={taskValidationErrorText}
         />
-        {option(useTaskEditorOption)}
       </StyledModal.Body>
       <StyledModal.Footer>
         <Button variant="secondary" onClick={handleClose}>
