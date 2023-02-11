@@ -2,14 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import styled from "styled-components";
 import InputForm from "./InputForm";
-import { Socket } from "socket.io-client";
 import Log from "../etc/log";
 import { socketIO } from "../socket/socket";
 
 type Props = {
   isVisible: boolean;
   setVisible: (isVisible: boolean) => void;
-  socket: Socket;
 };
 
 const StyledModal = styled(Modal)`

@@ -47,7 +47,7 @@ export default function Home(props: Props) {
   }, []);
   return (
     <>
-      <TaskField groups={props.groups} socket={props.socket} />
+      <TaskField groups={props.groups} />
       <ConnectionStatusToast
         isVisible={isToastVisible}
         setVisible={setToastVisible}

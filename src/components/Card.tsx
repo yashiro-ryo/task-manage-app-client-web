@@ -8,7 +8,6 @@ import DropZone from "./DropZone";
 import TaskEditor from "./TaskEditor";
 import TaskDeleteModal from "./TaskDeleteModal";
 import CardOption from "./CardOption";
-import { Socket } from "socket.io-client";
 import Log from "../etc/log";
 import { socketIO } from "../socket/socket";
 
@@ -18,7 +17,6 @@ type Props = {
   onDragStart: (e: React.MouseEvent) => void;
   onDrop: (e: React.MouseEvent) => void;
   taskGroup: TaskGroup;
-  socket: Socket;
 };
 
 const StyledCard = styled(Card)`

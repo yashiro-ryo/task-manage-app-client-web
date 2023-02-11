@@ -4,7 +4,6 @@ import CardComp from "./Card";
 import CategoryAddButton from "./CategoryAddButton";
 import CategoryEditor from "./CategoryEditor";
 import { TaskGroup, TaskType } from "../types/task";
-import { Socket } from "socket.io-client";
 import Log from "../etc/log";
 
 const Field = styled.div`
@@ -21,7 +20,6 @@ const Field = styled.div`
 
 type Props = {
   groups: Array<TaskGroup>;
-  socket: Socket;
 };
 
 export default function TaskField(props: Props) {
@@ -149,7 +147,6 @@ export default function TaskField(props: Props) {
               onDrop={onDrop}
               key={value.taskGroupId}
               taskGroup={value}
-              socket={props.socket}
             />
           );
         })}
@@ -157,7 +154,6 @@ export default function TaskField(props: Props) {
         <CategoryEditor
           isVisible={isCatEditorVisible}
           setVisible={setCatEditorVisible}
-          socket={props.socket}
         />
       </Field>
     </>
