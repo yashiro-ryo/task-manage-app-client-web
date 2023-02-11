@@ -4,6 +4,7 @@ import styled from "styled-components";
 import ErrorText from "./ErrorText";
 import InputForm from "./InputForm";
 import { Socket } from "socket.io-client";
+import { socketIO } from "../socket/socket";
 import { TaskGroup } from "../types/task";
 
 type Props = {
@@ -165,7 +166,12 @@ export default function TaskEditor(props: Props) {
     if (isNotAbleToSubmit) {
       return;
     }
-    props.socket.emit("create-task", {
+    const socket = socketIO.getSocket();
+    if (socket === undefined) {
+      handleClose();
+      return;
+    }
+    socket.emit("create-task", {
       // path paramから取得できるようにする
       projectId: 1,
       taskGroupId: props.taskGroup.taskGroupId,
