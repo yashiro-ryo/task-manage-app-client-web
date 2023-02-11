@@ -1,22 +1,17 @@
 import React, { useEffect, useState } from "react";
 import TaskField from "../components/TaskField";
 import { TaskGroup } from "../types/task";
-import { Socket } from "socket.io-client";
 import ConnectionStatusToast from "../components/ConnectionStatusToast";
 import Log from "../etc/log";
 import { socketIO } from "../socket/socket";
 import url from "../etc/url";
 
-type Props = {
-  groups: Array<TaskGroup>;
-  socket: Socket;
-};
-
-export default function Home(props: Props) {
+export default function Home() {
   // toast
   const [isToastVisible, setToastVisible] = useState(false);
   const [toastText, setToastText] = useState("");
   const [toastType, setToastType] = useState<"light" | "danger">("light");
+  const [groups, setGroups] = useState<Array<TaskGroup>>([]);
 
   let setupPrepared = false;
   useEffect(() => {
@@ -40,6 +35,10 @@ export default function Home(props: Props) {
               setToastVisible(true);
               setToastText("オフライン");
               setToastType("danger");
+            })
+            .on("init-tasks", (data: Array<TaskGroup>) => {
+              Log.v(data);
+              setGroups(data);
             });
         });
       setupPrepared = true;
@@ -47,7 +46,7 @@ export default function Home(props: Props) {
   }, []);
   return (
     <>
-      <TaskField groups={props.groups} />
+      <TaskField groups={groups} />
       <ConnectionStatusToast
         isVisible={isToastVisible}
         setVisible={setToastVisible}
