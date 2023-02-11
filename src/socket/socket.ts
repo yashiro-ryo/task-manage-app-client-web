@@ -1,6 +1,6 @@
 import { io, Socket } from "socket.io-client";
 
-export class SocketIO {
+class SocketIO {
   socket: Socket | undefined;
 
   createConnection(serverUrl: string) {
@@ -19,3 +19,5 @@ export class SocketIO {
     this.socket = socket;
   }
 }
+
+export const socketIO = new SocketIO();

@@ -4,7 +4,7 @@ import { TaskGroup } from "../types/task";
 import { Socket } from "socket.io-client";
 import ConnectionStatusToast from "../components/ConnectionStatusToast";
 import Log from "../etc/log";
-import { SocketIO } from "../socket/socket";
+import { socketIO } from "../socket/socket";
 import url from "../etc/url";
 
 type Props = {
@@ -21,7 +21,6 @@ export default function Home(props: Props) {
   let setupPrepared = false;
   useEffect(() => {
     if (!setupPrepared) {
-      const socketIO = new SocketIO();
       socketIO
         .createConnection(url.getServerApi(process.env.NODE_ENV))
         .then(() => {
