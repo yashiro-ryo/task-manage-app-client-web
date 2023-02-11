@@ -3,14 +3,12 @@ import { Modal, Button } from "react-bootstrap";
 import styled from "styled-components";
 import ErrorText from "./ErrorText";
 import InputForm from "./InputForm";
-import { Socket } from "socket.io-client";
 import { socketIO } from "../socket/socket";
 import { TaskGroup } from "../types/task";
 
 type Props = {
   isVisible: boolean;
   setVisible: (isVisible: boolean) => void;
-  socket: Socket;
   taskGroup: TaskGroup;
 };
 
