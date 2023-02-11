@@ -18,20 +18,6 @@ export default function Home(props: Props) {
   const [toastText, setToastText] = useState("");
   const [toastType, setToastType] = useState<"light" | "danger">("light");
 
-  props.socket
-    .on("connect", () => {
-      Log.v("socket connected");
-      setToastVisible(true);
-      setToastText("接続されました");
-      setToastType("light");
-    })
-    .on("disconnect", () => {
-      Log.v("socket disconnected");
-      setToastVisible(true);
-      setToastText("オフライン");
-      setToastType("danger");
-    });
-
   let setupPrepared = false;
   useEffect(() => {
     if (!setupPrepared) {
@@ -45,10 +31,16 @@ export default function Home(props: Props) {
           }
           socket
             .on("connect", () => {
-              console.log("接続さえれたし");
+              Log.v("socket connected");
+              setToastVisible(true);
+              setToastText("接続されました");
+              setToastType("light");
             })
             .on("disconnect", () => {
-              console.log("接続切れたし");
+              Log.v("socket disconnected");
+              setToastVisible(true);
+              setToastText("オフライン");
+              setToastType("danger");
             });
         });
       setupPrepared = true;
