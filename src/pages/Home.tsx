@@ -5,6 +5,9 @@ import ConnectionStatusToast from "../components/ConnectionStatusToast";
 import Log from "../etc/log";
 import { socketIO } from "../socket/socket";
 import url from "../etc/url";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router";
+import ErrorModal from "../components/ErrorModal";
 
 export default function Home() {
   // toast
@@ -12,6 +15,10 @@ export default function Home() {
   const [toastText, setToastText] = useState("");
   const [toastType, setToastType] = useState<"light" | "danger">("light");
   const [groups, setGroups] = useState<Array<TaskGroup>>([]);
+  const [isErrorModalVisible, setErrorModalVisible] = useState(false);
+  const [errorText, setErrorText] = useState("");
+  const params = useParams();
+  const navigate = useNavigate();
 
   let setupPrepared = false;
   useEffect(() => {
@@ -39,11 +46,27 @@ export default function Home() {
             .on("init-tasks", (data: Array<TaskGroup>) => {
               Log.v(data);
               setGroups(data);
-            });
+            })
+            .on("error-invalid-projectId", () => {
+              console.error("invalid projectId");
+              setErrorModalVisible(true);
+              setErrorText("指定したprojectは表示できません。");
+            })
+            .on("error", () => {
+              console.error("unexpected error");
+              setErrorModalVisible(true);
+              setErrorText("予期しないエラーが発生しました。");
+            })
+            .emit("get-tasks", { projectId: params.projectId });
         });
       setupPrepared = true;
     }
   }, []);
+
+  const redirectToHome = () => {
+    navigate("/home");
+  };
+
   return (
     <>
       <TaskField groups={groups} />
@@ -52,6 +75,12 @@ export default function Home() {
         setVisible={setToastVisible}
         text={toastText}
         type={toastType}
+      />
+      <ErrorModal
+        isVisible={isErrorModalVisible}
+        setVisible={setErrorModalVisible}
+        errorText={errorText}
+        cb={redirectToHome}
       />
     </>
   );
