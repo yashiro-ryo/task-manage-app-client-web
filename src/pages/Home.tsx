@@ -57,6 +57,10 @@ export default function Home() {
               setErrorModalVisible(true);
               setErrorText("予期しないエラーが発生しました。");
             })
+            .on("error-failed-authenticate-user", () => {
+              console.error("failed authenticate user");
+              window.location.href = "http://localhost:5050/signin";
+            })
             .emit("get-tasks", { projectId: params.projectId });
         });
       setupPrepared = true;
