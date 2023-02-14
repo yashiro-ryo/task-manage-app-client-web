@@ -48,7 +48,7 @@ export default function Project() {
         .get(url.getServerApi(process.env.NODE_ENV) + "/api/v1/projects")
         .then((data: any) => {
           if (data.data.hasError) {
-            //window.location.href = "http://localhost:5050/signin";
+            window.location.href = "http://localhost:5050/signin";
             console.log(data);
           } else {
             console.log(data.data.data);
@@ -57,7 +57,7 @@ export default function Project() {
         })
         .catch((e) => {
           console.error(e);
-          //window.location.href = "http://localhost:5050/signin";
+          window.location.href = "http://localhost:5050/signin";
         });
       setupPrepared = true;
     }
