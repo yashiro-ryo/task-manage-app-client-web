@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import styled from "styled-components";
 import InputForm from "./InputForm";
-import { Socket } from "socket.io-client";
 import Log from "../etc/log";
+import { socketIO } from "../socket/socket";
 
 type Props = {
   isVisible: boolean;
   setVisible: (isVisible: boolean) => void;
-  socket: Socket;
 };
 
 const StyledModal = styled(Modal)`
@@ -50,7 +49,12 @@ export default function CategoryEditor(props: Props) {
       return;
     }
     // dbにデータを飛ばす
-    props.socket.emit("create-new-task-group", {
+    const socket = socketIO.getSocket();
+    if (socket === undefined) {
+      props.setVisible(false);
+      return;
+    }
+    socket.emit("create-new-task-group", {
       // TODO: add user auth
       projectId: 1,
       groupName: categoryName,

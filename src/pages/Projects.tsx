@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProjectCard from "../components/ProjectCard";
 import styled from "styled-components";
 import { Button } from "react-bootstrap";
 import CreateProjectModal from "../components/CreateProjectModal";
+import axios from "axios";
+import url from "../etc/url";
 
 const StyledPage = styled.div`
   width: 100%;
@@ -35,24 +37,31 @@ const PageHeader = styled.div`
 export default function Project() {
   const [isCreateProjectModalVisible, setCreateProjectModalVisible] =
     useState(false);
-  const projects = [
-    {
-      id: 1,
-      name: "hogehoge",
-    },
-    {
-      id: 2,
-      name: "fugafuga",
-    },
-    {
-      id: 3,
-      name: "banana",
-    },
-    {
-      id: 4,
-      name: "example",
-    },
-  ];
+  const [projects, setProjects] = useState<
+    Array<{ projectId: number; projectName: string }>
+  >([]);
+
+  let setupPrepared = false;
+  useEffect(() => {
+    if (!setupPrepared) {
+      axios
+        .get(url.getServerApi(process.env.NODE_ENV) + "/api/v1/projects")
+        .then((data: any) => {
+          if (data.data.hasError) {
+            window.location.href = "http://localhost:5050/signin";
+            console.log(data);
+          } else {
+            console.log(data.data.data);
+            setProjects(data.data.data);
+          }
+        })
+        .catch((e) => {
+          console.error(e);
+          window.location.href = "http://localhost:5050/signin";
+        });
+      setupPrepared = true;
+    }
+  }, []);
 
   const showCreateProjectModal = () => {
     setCreateProjectModalVisible(true);
@@ -68,9 +77,13 @@ export default function Project() {
           </Button>
         </PageHeader>
         <ProjectList>
-          {projects.map((project, index) => {
-            return <ProjectCard project={project} key={`project-${index}`} />;
-          })}
+          {projects.length === 0 ? (
+            <p>プロジェクトが存在しません。</p>
+          ) : (
+            projects.map((project, index) => {
+              return <ProjectCard project={project} key={`project-${index}`} />;
+            })
+          )}
         </ProjectList>
         <CreateProjectModal
           isVisible={isCreateProjectModalVisible}

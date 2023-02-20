@@ -8,8 +8,8 @@ import DropZone from "./DropZone";
 import TaskEditor from "./TaskEditor";
 import TaskDeleteModal from "./TaskDeleteModal";
 import CardOption from "./CardOption";
-import { Socket } from "socket.io-client";
 import Log from "../etc/log";
+import { socketIO } from "../socket/socket";
 
 type Props = {
   onDrag: (e: React.MouseEvent) => void;
@@ -17,7 +17,6 @@ type Props = {
   onDragStart: (e: React.MouseEvent) => void;
   onDrop: (e: React.MouseEvent) => void;
   taskGroup: TaskGroup;
-  socket: Socket;
 };
 
 const StyledCard = styled(Card)`
@@ -58,7 +57,11 @@ export default function CardComp(props: Props) {
   };
 
   const deleteTask = () => {
-    props.socket.emit("delete-task", {
+    const socket = socketIO.getSocket();
+    if (socket === undefined) {
+      return;
+    }
+    socket.emit("delete-task", {
       taskId: deleteTaskId,
       projectId: 1,
     });
@@ -66,7 +69,11 @@ export default function CardComp(props: Props) {
 
   const deleteTaskGroup = () => {
     Log.v("タスクグループ削除" + props.taskGroup.taskGroupId);
-    props.socket.emit("delete-taskgroup", {
+    const socket = socketIO.getSocket();
+    if (socket === undefined) {
+      return;
+    }
+    socket.emit("delete-taskgroup", {
       projectId: 1,
       taskGroupId: props.taskGroup.taskGroupId,
     });
@@ -109,7 +116,6 @@ export default function CardComp(props: Props) {
       <TaskEditor
         isVisible={isTaskEditorVisible}
         setVisible={setTaskEditorVisible}
-        socket={props.socket}
         taskGroup={props.taskGroup}
       />
       <TaskDeleteModal

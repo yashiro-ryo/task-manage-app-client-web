@@ -9,8 +9,8 @@ type Props = {
 };
 
 type Project = {
-  id: number;
-  name: string;
+  projectId: number;
+  projectName: string;
 };
 
 const StyledCard = styled(Card)`
@@ -35,8 +35,8 @@ export default function ProjectCard(props: Props) {
   return (
     <StyledCard>
       <StyledCardBody>
-        <StyledLink to={`/home/${props.project.id}`}>
-          {props.project.name}
+        <StyledLink to={`/home/${props.project.projectId}`}>
+          {props.project.projectName}
         </StyledLink>
         <ProjectOption />
       </StyledCardBody>
