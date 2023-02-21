@@ -9,8 +9,8 @@ import Signout from "./pages/Signout";
 function App() {
   return (
     <>
-      <Navbar />
       <BrowserRouter>
+        <Navbar />
         <Routes>
           <Route path="/home/:projectId" element={<Home />} />
           <Route path="/home" element={<Projects />} />
