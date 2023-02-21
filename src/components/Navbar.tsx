@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const navbarHeight = 50;
@@ -15,6 +16,20 @@ const NavLeft = styled.div`
   display: flex;
 `;
 
+const NavRight = styled.div`
+  display: flex;
+`;
+
+const NavLink = styled(Link)`
+  line-height: ${navbarHeight}px;
+  margin: 0 20px;
+  color: #fff;
+  text-decoration: none;
+  :hover {
+    color: #636363;
+  }
+`;
+
 const NavBrand = styled.span`
   line-height: ${navbarHeight}px;
   font-size: 20px;
@@ -28,6 +43,9 @@ export default function Navbar() {
       <NavLeft>
         <NavBrand>Navbar Title</NavBrand>
       </NavLeft>
+      <NavRight>
+        <NavLink to="/signout">ログアウト</NavLink>
+      </NavRight>
     </Nav>
   );
 }
