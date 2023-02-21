@@ -59,7 +59,8 @@ export default function Home() {
             })
             .on("error-failed-authenticate-user", () => {
               console.error("failed authenticate user");
-              window.location.href = "http://localhost:5050/signin";
+              window.location.href =
+                url.getServerApi(process.env.NODE_ENV) + "/signin";
             })
             .emit("get-tasks", { projectId: params.projectId });
         });
