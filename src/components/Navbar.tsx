@@ -41,10 +41,12 @@ export default function Navbar() {
   return (
     <Nav>
       <NavLeft>
-        <NavBrand>Navbar Title</NavBrand>
+        <NavBrand data-testid="nav-brand">Task Manage App</NavBrand>
       </NavLeft>
       <NavRight>
-        <NavLink to="/signout">ログアウト</NavLink>
+        <NavLink to="/signout" data-testid="nav-link-signout">
+          ログアウト
+        </NavLink>
       </NavRight>
     </Nav>
   );
