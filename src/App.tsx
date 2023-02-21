@@ -4,15 +4,17 @@ import Home from "./pages/Home";
 import Projects from "./pages/Projects";
 import Navbar from "./components/Navbar";
 import Root from "./pages/Root";
+import Signout from "./pages/Signout";
 
 function App() {
   return (
     <>
-      <Navbar />
       <BrowserRouter>
+        <Navbar />
         <Routes>
           <Route path="/home/:projectId" element={<Home />} />
           <Route path="/home" element={<Projects />} />
+          <Route path="/signout" element={<Signout />} />
           {/* 上記以外は/homeにリダイレクトするようにする */}
           <Route path="*" element={<Root />} />
         </Routes>

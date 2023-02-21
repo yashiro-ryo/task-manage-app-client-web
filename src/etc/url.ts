@@ -4,7 +4,7 @@ function getServerApi(env: "development" | "production" | "test" | undefined) {
   } else if (env === "test") {
     return "http://localhost:5050";
   } else if (env === "production") {
-    return "http://160.251.45.134";
+    return "https://task-manage-app.com";
   } else {
     return "http://localhost:5050";
   }
