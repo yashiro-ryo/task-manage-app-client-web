@@ -42,13 +42,14 @@ export default function Project() {
   >([]);
 
   let setupPrepared = false;
+  const serverUrl = url.getServerApi(process.env.NODE_ENV);
   useEffect(() => {
     if (!setupPrepared) {
       axios
         .get(url.getServerApi(process.env.NODE_ENV) + "/api/v1/projects")
         .then((data: any) => {
           if (data.data.hasError) {
-            window.location.href = "http://localhost:5050/signin";
+            window.location.href = serverUrl + "/signin";
             console.log(data);
           } else {
             console.log(data.data.data);
@@ -57,7 +58,7 @@ export default function Project() {
         })
         .catch((e) => {
           console.error(e);
-          window.location.href = "http://localhost:5050/signin";
+          window.location.href = serverUrl + "/signin";
         });
       setupPrepared = true;
     }
