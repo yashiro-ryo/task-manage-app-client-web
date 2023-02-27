@@ -8,7 +8,7 @@ import Signout from "./pages/Signout";
 import { User } from "firebase/auth";
 import { auth } from "./firebase";
 
-const UserContext = createContext<{ user: User | null }>({ user: null });
+export const UserContext = createContext<{ user: User | null }>({ user: null });
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
