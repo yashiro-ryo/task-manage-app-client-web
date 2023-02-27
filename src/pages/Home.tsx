@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import TaskField from "../components/TaskField";
 import { TaskGroup } from "../types/task";
 import ConnectionStatusToast from "../components/ConnectionStatusToast";
@@ -8,6 +8,7 @@ import url from "../etc/url";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router";
 import ErrorModal from "../components/ErrorModal";
+import { UserContext } from "../App";
 
 export default function Home() {
   // toast
@@ -19,12 +20,11 @@ export default function Home() {
   const [errorText, setErrorText] = useState("");
   const params = useParams();
   const navigate = useNavigate();
-
-  let setupPrepared = false;
+  const user = useContext(UserContext).user;
   useEffect(() => {
-    if (!setupPrepared) {
+    user?.getIdToken(true).then((token) => {
       socketIO
-        .createConnection(url.getServerApi(process.env.NODE_ENV))
+        .createConnection(url.getServerApi(process.env.NODE_ENV), token)
         .then(() => {
           const socket = socketIO.getSocket();
           if (socket === undefined) {
@@ -64,9 +64,8 @@ export default function Home() {
             })
             .emit("get-tasks", { projectId: params.projectId });
         });
-      setupPrepared = true;
-    }
-  }, []);
+    });
+  }, [user]);
 
   const redirectToHome = () => {
     navigate("/home");
