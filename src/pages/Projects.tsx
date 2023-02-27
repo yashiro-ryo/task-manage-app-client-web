@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ProjectCard from "../components/ProjectCard";
 import styled from "styled-components";
 import { Button } from "react-bootstrap";
 import CreateProjectModal from "../components/CreateProjectModal";
 import axios from "axios";
 import url from "../etc/url";
+import { UserContext } from "../App";
 
 const StyledPage = styled.div`
   width: 100%;
@@ -40,16 +41,22 @@ export default function Project() {
   const [projects, setProjects] = useState<
     Array<{ projectId: number; projectName: string }>
   >([]);
-
-  let setupPrepared = false;
+  const user = useContext(UserContext).user;
   const serverUrl = url.getServerApi(process.env.NODE_ENV);
   useEffect(() => {
-    if (!setupPrepared) {
+    user?.getIdToken(true).then((token) => {
+      console.log(token);
+      console.log("get projects");
       axios
-        .get(url.getServerApi(process.env.NODE_ENV) + "/api/v1/projects")
+        .get(serverUrl + "/api/v1/projects", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         .then((data: any) => {
+          console.log(data.data);
           if (data.data.hasError) {
-            window.location.href = serverUrl + "/signin";
+            //window.location.href = serverUrl + "/signin";
             console.log(data);
           } else {
             console.log(data.data.data);
@@ -58,11 +65,10 @@ export default function Project() {
         })
         .catch((e) => {
           console.error(e);
-          window.location.href = serverUrl + "/signin";
+          //window.location.href = serverUrl + "/signin";
         });
-      setupPrepared = true;
-    }
-  }, []);
+    });
+  }, [user]);
 
   const showCreateProjectModal = () => {
     setCreateProjectModalVisible(true);
