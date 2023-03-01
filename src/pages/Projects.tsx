@@ -39,7 +39,7 @@ export default function Project() {
   const [isCreateProjectModalVisible, setCreateProjectModalVisible] =
     useState(false);
   const [projects, setProjects] = useState<
-    Array<{ projectId: number; projectName: string }>
+    Array<{ project_id: number; project_name: string }>
   >([]);
   const user = useContext(UserContext).user;
   const serverUrl = url.getServerApi(process.env.NODE_ENV);
@@ -50,18 +50,13 @@ export default function Project() {
       axios
         .get(serverUrl + "/api/v1/projects", {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: token,
           },
         })
         .then((data: any) => {
           console.log(data.data);
-          if (data.data.hasError) {
-            //window.location.href = serverUrl + "/signin";
-            console.log(data);
-          } else {
-            console.log(data.data.data);
-            setProjects(data.data.data);
-          }
+          console.log(data.data.projects);
+          setProjects(data.data.projects);
         })
         .catch((e) => {
           console.error(e);
