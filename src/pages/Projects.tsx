@@ -43,28 +43,30 @@ export default function Project() {
   >([]);
   const user = useContext(UserContext).user;
   const serverUrl = url.getServerApi(process.env.NODE_ENV);
+  let setupPrepared = false;
   useEffect(() => {
-    if (user === null) {
-      return;
+    if (user !== null && !setupPrepared) {
+      setupPrepared = true;
+      user.getIdToken(true).then((token) => {
+        console.log(token);
+        console.log("get projects");
+        axios
+          .get(serverUrl + "/api/v1/projects", {
+            headers: {
+              Authorization: token,
+            },
+          })
+          .then((data: any) => {
+            console.log(data.data.projects);
+            setProjects(data.data.projects);
+          })
+          .catch((e) => {
+            console.error(e);
+            // debug用に外している
+            //window.location.href = serverUrl + "/signin";
+          });
+      });
     }
-    user.getIdToken(true).then((token) => {
-      console.log(token);
-      console.log("get projects");
-      axios
-        .get(serverUrl + "/api/v1/projects", {
-          headers: {
-            Authorization: token,
-          },
-        })
-        .then((data: any) => {
-          console.log(data.data.projects);
-          setProjects(data.data.projects);
-        })
-        .catch((e) => {
-          console.error(e);
-          //window.location.href = serverUrl + "/signin";
-        });
-    });
   }, [user]);
 
   const showCreateProjectModal = () => {
