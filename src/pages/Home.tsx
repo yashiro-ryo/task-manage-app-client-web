@@ -22,9 +22,17 @@ export default function Home() {
   const navigate = useNavigate();
   const user = useContext(UserContext).user;
   useEffect(() => {
-    user?.getIdToken(true).then((token) => {
+    if (user === null) {
+      return;
+    }
+    user.getIdToken(true).then((token) => {
+      Log.v("create connection");
       socketIO
-        .createConnection(url.getServerApi(process.env.NODE_ENV), token)
+        .createConnection(
+          url.getServerApi(process.env.NODE_ENV),
+          token,
+          Number(params.projectId)
+        )
         .then(() => {
           const socket = socketIO.getSocket();
           if (socket === undefined) {

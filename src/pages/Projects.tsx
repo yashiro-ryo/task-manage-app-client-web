@@ -44,7 +44,10 @@ export default function Project() {
   const user = useContext(UserContext).user;
   const serverUrl = url.getServerApi(process.env.NODE_ENV);
   useEffect(() => {
-    user?.getIdToken(true).then((token) => {
+    if (user === null) {
+      return;
+    }
+    user.getIdToken(true).then((token) => {
       console.log(token);
       console.log("get projects");
       axios
@@ -54,7 +57,6 @@ export default function Project() {
           },
         })
         .then((data: any) => {
-          console.log(data.data);
           console.log(data.data.projects);
           setProjects(data.data.projects);
         })

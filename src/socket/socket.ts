@@ -3,9 +3,10 @@ import { io, Socket } from "socket.io-client";
 class SocketIO {
   socket: Socket | undefined;
 
-  createConnection(serverUrl: string, token: string) {
+  createConnection(serverUrl: string, token: string, projectId: number) {
     this.socket = io(serverUrl, {
       auth: { token },
+      query: { projectId },
     });
     if (this.socket === undefined) {
       return Promise.reject("failed to connect server");
