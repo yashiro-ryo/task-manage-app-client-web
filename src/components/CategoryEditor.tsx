@@ -4,6 +4,7 @@ import styled from "styled-components";
 import InputForm from "./InputForm";
 import Log from "../etc/log";
 import { socketIO } from "../socket/socket";
+import { useParams } from "react-router";
 
 type Props = {
   isVisible: boolean;
@@ -24,6 +25,7 @@ export default function CategoryEditor(props: Props) {
   const handleClose = () => {
     props.setVisible(false);
   };
+  const param = useParams();
 
   const initModal = () => {
     setCategoryName("");
@@ -56,7 +58,7 @@ export default function CategoryEditor(props: Props) {
     }
     socket.emit("create-new-task-group", {
       // TODO: add user auth
-      projectId: 1,
+      projectId: param.projectId,
       groupName: categoryName,
     });
     props.setVisible(false);

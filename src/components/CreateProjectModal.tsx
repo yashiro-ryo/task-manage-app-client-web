@@ -1,6 +1,7 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
+import { UserContext } from "../App";
 import url from "../etc/url";
 
 type Props = {
@@ -25,23 +26,35 @@ export default function CreateProjectModal(props: Props) {
     setInputText(e.target.value);
   };
 
+  const user = useContext(UserContext).user;
+
   const doCreateProject = () => {
-    axios
-      .post(url.getServerApi(process.env.NODE_ENV) + "/api/v1/project", {
-        projectName: inputText,
-      })
-      .then((data: any) => {
-        if (data.data.hasError) {
-          setErrorText(data.data.errorMsg);
-        } else {
+    user?.getIdToken(true).then((token) => {
+      axios
+        .post(
+          url.getServerApi(process.env.NODE_ENV) + "/api/v1/project",
+          {
+            projectName: inputText,
+          },
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        )
+        .then((data: any) => {
+          if (data.data.hasError) {
+            setErrorText(data.data.errorMsg);
+          } else {
+            handleClose();
+            // 更新
+          }
+        })
+        .catch((e) => {
+          console.error(e);
           handleClose();
-          // 更新
-        }
-      })
-      .catch((e) => {
-        console.error(e);
-        handleClose();
-      });
+        });
+    });
   };
 
   return (
