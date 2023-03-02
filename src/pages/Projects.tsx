@@ -62,8 +62,7 @@ export default function Project() {
           })
           .catch((e) => {
             console.error(e);
-            // debug用に外している
-            //window.location.href = serverUrl + "/signin";
+            window.location.href = serverUrl + "/signin";
           });
       });
     }
