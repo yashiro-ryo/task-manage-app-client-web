@@ -5,6 +5,7 @@ import ErrorText from "./ErrorText";
 import InputForm from "./InputForm";
 import { socketIO } from "../socket/socket";
 import { TaskGroup } from "../types/task";
+import { useParams } from "react-router";
 
 type Props = {
   isVisible: boolean;
@@ -158,6 +159,8 @@ export default function TaskEditor(props: Props) {
     setDeadlineValidationErrorText("");
   };
 
+  const param = useParams();
+
   const submitTask = () => {
     const isNotAbleToSubmit = validate();
     // dbにデータを飛ばす
@@ -171,7 +174,7 @@ export default function TaskEditor(props: Props) {
     }
     socket.emit("create-task", {
       // path paramから取得できるようにする
-      projectId: 1,
+      projectId: param.projectId,
       taskGroupId: props.taskGroup.taskGroupId,
       taskText: taskName,
       position: props.taskGroup.tasks.length,

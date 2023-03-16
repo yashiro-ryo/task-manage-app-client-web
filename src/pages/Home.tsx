@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import TaskField from "../components/TaskField";
 import { TaskGroup } from "../types/task";
 import ConnectionStatusToast from "../components/ConnectionStatusToast";
@@ -8,6 +8,7 @@ import url from "../etc/url";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router";
 import ErrorModal from "../components/ErrorModal";
+import { UserContext } from "../App";
 
 export default function Home() {
   // toast
@@ -19,54 +20,62 @@ export default function Home() {
   const [errorText, setErrorText] = useState("");
   const params = useParams();
   const navigate = useNavigate();
-
+  const user = useContext(UserContext).user;
   let setupPrepared = false;
   useEffect(() => {
-    if (!setupPrepared) {
-      socketIO
-        .createConnection(url.getServerApi(process.env.NODE_ENV))
-        .then(() => {
-          const socket = socketIO.getSocket();
-          if (socket === undefined) {
-            return;
-          }
-          socket
-            .on("connect", () => {
-              Log.v("socket connected");
-              setToastVisible(true);
-              setToastText("接続されました");
-              setToastType("light");
-            })
-            .on("disconnect", () => {
-              Log.v("socket disconnected");
-              setToastVisible(true);
-              setToastText("オフライン");
-              setToastType("danger");
-            })
-            .on("init-tasks", (data: Array<TaskGroup>) => {
-              Log.v(data);
-              setGroups(data);
-            })
-            .on("error-invalid-projectId", () => {
-              console.error("invalid projectId");
-              setErrorModalVisible(true);
-              setErrorText("指定したprojectは表示できません。");
-            })
-            .on("error", () => {
-              console.error("unexpected error");
-              setErrorModalVisible(true);
-              setErrorText("予期しないエラーが発生しました。");
-            })
-            .on("error-failed-authenticate-user", () => {
-              console.error("failed authenticate user");
-              window.location.href =
-                url.getServerApi(process.env.NODE_ENV) + "/signin";
-            })
-            .emit("get-tasks", { projectId: params.projectId });
-        });
+    if (user !== null && !setupPrepared) {
       setupPrepared = true;
+      user.getIdToken(true).then((token) => {
+        Log.v("create connection");
+        socketIO
+          .createConnection(
+            url.getServerApi(process.env.NODE_ENV),
+            token,
+            Number(params.projectId)
+          )
+          .then(() => {
+            const socket = socketIO.getSocket();
+            if (socket === undefined) {
+              return;
+            }
+            socket
+              .on("connect", () => {
+                Log.v("socket connected");
+                setToastVisible(true);
+                setToastText("接続されました");
+                setToastType("light");
+              })
+              .on("disconnect", () => {
+                Log.v("socket disconnected");
+                setToastVisible(true);
+                setToastText("オフライン");
+                setToastType("danger");
+              })
+              .on("init-tasks", (data: Array<TaskGroup>) => {
+                Log.v("update task");
+                Log.v(data);
+                setGroups(data);
+              })
+              .on("error-invalid-projectId", () => {
+                console.error("invalid projectId");
+                setErrorModalVisible(true);
+                setErrorText("指定したprojectは表示できません。");
+              })
+              .on("error", () => {
+                console.error("unexpected error");
+                setErrorModalVisible(true);
+                setErrorText("予期しないエラーが発生しました。");
+              })
+              .on("error-failed-authenticate-user", () => {
+                console.error("failed authenticate user");
+                window.location.href =
+                  url.getServerApi(process.env.NODE_ENV) + "/signin";
+              })
+              .emit("get-tasks", { projectId: params.projectId });
+          });
+      });
     }
-  }, []);
+  }, [user]);
 
   const redirectToHome = () => {
     navigate("/home");

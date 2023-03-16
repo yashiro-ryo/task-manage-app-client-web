@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ProjectCard from "../components/ProjectCard";
 import styled from "styled-components";
 import { Button } from "react-bootstrap";
 import CreateProjectModal from "../components/CreateProjectModal";
 import axios from "axios";
 import url from "../etc/url";
+import { UserContext } from "../App";
 
 const StyledPage = styled.div`
   width: 100%;
@@ -38,31 +39,34 @@ export default function Project() {
   const [isCreateProjectModalVisible, setCreateProjectModalVisible] =
     useState(false);
   const [projects, setProjects] = useState<
-    Array<{ projectId: number; projectName: string }>
+    Array<{ project_id: number; project_name: string }>
   >([]);
-
-  let setupPrepared = false;
+  const user = useContext(UserContext).user;
   const serverUrl = url.getServerApi(process.env.NODE_ENV);
+  let setupPrepared = false;
   useEffect(() => {
-    if (!setupPrepared) {
-      axios
-        .get(url.getServerApi(process.env.NODE_ENV) + "/api/v1/projects")
-        .then((data: any) => {
-          if (data.data.hasError) {
-            window.location.href = serverUrl + "/signin";
-            console.log(data);
-          } else {
-            console.log(data.data.data);
-            setProjects(data.data.data);
-          }
-        })
-        .catch((e) => {
-          console.error(e);
-          window.location.href = serverUrl + "/signin";
-        });
+    if (user !== null && !setupPrepared) {
       setupPrepared = true;
+      user.getIdToken(true).then((token) => {
+        console.log(token);
+        console.log("get projects");
+        axios
+          .get(serverUrl + "/api/v1/projects", {
+            headers: {
+              Authorization: token,
+            },
+          })
+          .then((data: any) => {
+            console.log(data.data.projects);
+            setProjects(data.data.projects);
+          })
+          .catch((e) => {
+            console.error(e);
+            window.location.href = serverUrl + "/signin";
+          });
+      });
     }
-  }, []);
+  }, [user]);
 
   const showCreateProjectModal = () => {
     setCreateProjectModalVisible(true);
